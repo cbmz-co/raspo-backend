@@ -1,10 +1,25 @@
-group 'it.cbmz.raspo'
-version '1.0-SNAPSHOT'
+
+buildscript {
+    ext {
+        springBootVersion = '2.0.0.RELEASE'
+    }
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+    }
+}
 
 apply plugin: 'java'
 apply plugin: 'application'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
 
-mainClassName = "it.cbmz.raspo.backend.SampleController"
+group 'it.cbmz.raspo'
+version '1.0-SNAPSHOT'
+
+mainClassName = "it.cbmz.raspo.backend.RaspoApplication"
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
@@ -14,5 +29,8 @@ repositories {
 }
 
 dependencies {
-    compile("org.springframework.boot:spring-boot-starter-web:2.0.0.RELEASE")
+    compile('org.springframework.boot:spring-boot-starter-data-jpa')
+    compile('org.springframework.boot:spring-boot-starter-webflux')
+    runtime('org.springframework.boot:spring-boot-devtools')
+    runtime('com.h2database:h2')
 }
