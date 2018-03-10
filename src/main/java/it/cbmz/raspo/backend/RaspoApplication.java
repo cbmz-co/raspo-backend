@@ -25,24 +25,4 @@ public class RaspoApplication {
     public static void main(String[] args) throws Exception {
         SpringApplication.run(RaspoApplication.class, args);
     }
-
-    @Configuration
-    static class WebConfig {
-
-        @Bean
-        public HandlerMapping handlerMapping() {
-            Map<String, WebSocketHandler> map = new HashMap<>();
-            map.put("/ciao", new RaspoWSHandler());
-
-            SimpleUrlHandlerMapping mapping = new SimpleUrlHandlerMapping();
-            mapping.setUrlMap(map);
-            mapping.setOrder(-1); // before annotated controllers
-            return mapping;
-        }
-
-        @Bean
-        public WebSocketHandlerAdapter handlerAdapter() {
-            return new WebSocketHandlerAdapter();
-        }
-    }
 }
