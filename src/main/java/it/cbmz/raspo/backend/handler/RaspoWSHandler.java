@@ -8,7 +8,6 @@ import org.springframework.web.reactive.socket.WebSocketSession;
 import reactor.core.publisher.Mono;
 
 import java.util.List;
-import java.util.concurrent.ConcurrentMap;
 
 public class RaspoWSHandler implements WebSocketHandler {
 
@@ -16,8 +15,6 @@ public class RaspoWSHandler implements WebSocketHandler {
 	public Mono<Void> handle(WebSocketSession session) {
 
 		HandshakeInfo handshakeInfo = session.getHandshakeInfo();
-
-		handshakeInfo.getHeaders().get(HttpHeaders.HOST);
 
 		session.receive()
 			.map(WebSocketMessage::getPayloadAsText)
