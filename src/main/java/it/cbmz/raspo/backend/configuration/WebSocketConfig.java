@@ -1,13 +1,15 @@
 package it.cbmz.raspo.backend.configuration;
 
 import it.cbmz.raspo.backend.handler.RaspoWSHandler;
-import org.springframework.beans.factory.annotation.Autowired;
+import it.cbmz.raspo.backend.message.Message;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.reactive.HandlerMapping;
 import org.springframework.web.reactive.handler.SimpleUrlHandlerMapping;
 import org.springframework.web.reactive.socket.WebSocketHandler;
 import org.springframework.web.reactive.socket.server.support.WebSocketHandlerAdapter;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.UnicastProcessor;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -15,13 +17,24 @@ import java.util.Map;
 @Configuration
 public class WebSocketConfig {
 
-	@Autowired
-	private WebSocketHandler webSocketHandler;
+	@Bean
+	public UnicastProcessor<Message> messagePublisher(){
+		return UnicastProcessor.create();
+	}
 
 	@Bean
-	public HandlerMapping handlerMapping() {
+	public Flux<Message> messages(UnicastProcessor<Message> messagePublisher) {
+		return messagePublisher
+			.replay(0)
+			.autoConnect();
+	}
+
+	@Bean
+	public HandlerMapping handlerMapping(
+		UnicastProcessor<Message> unicastProcessor, Flux<Message> messages) {
 		Map<String, WebSocketHandler> map = new HashMap<>();
-		map.put("/ciao", webSocketHandler);
+		map.put(
+			"/websocket/raspo", new RaspoWSHandler(unicastProcessor, messages));
 
 		SimpleUrlHandlerMapping mapping = new SimpleUrlHandlerMapping();
 		mapping.setUrlMap(map);
