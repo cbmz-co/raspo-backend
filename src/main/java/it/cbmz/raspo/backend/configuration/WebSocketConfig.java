@@ -2,6 +2,7 @@ package it.cbmz.raspo.backend.configuration;
 
 import it.cbmz.raspo.backend.handler.RaspoWSHandler;
 import it.cbmz.raspo.backend.message.Message;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.reactive.HandlerMapping;
@@ -30,12 +31,9 @@ public class WebSocketConfig {
 	}
 
 	@Bean
-	public HandlerMapping handlerMapping(
-		UnicastProcessor<Message> unicastProcessor, Flux<Message> messages) {
+	public HandlerMapping handlerMapping() {
 		Map<String, WebSocketHandler> map = new HashMap<>();
-		map.put(
-			"/websocket/raspo", new RaspoWSHandler(unicastProcessor, messages));
-
+		map.put("/websocket/raspo", _raspoWSHandler);
 		SimpleUrlHandlerMapping mapping = new SimpleUrlHandlerMapping();
 		mapping.setUrlMap(map);
 		mapping.setOrder(-1); // before annotated controllers
@@ -46,4 +44,7 @@ public class WebSocketConfig {
 	public WebSocketHandlerAdapter handlerAdapter() {
 		return new WebSocketHandlerAdapter();
 	}
+
+	@Autowired
+	private RaspoWSHandler _raspoWSHandler;
 }

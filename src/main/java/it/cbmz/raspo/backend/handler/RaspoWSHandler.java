@@ -2,6 +2,8 @@ package it.cbmz.raspo.backend.handler;
 
 import it.cbmz.raspo.backend.message.Message;
 import it.cbmz.raspo.backend.subscriber.RaspoSubscriber;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.socket.WebSocketHandler;
 import org.springframework.web.reactive.socket.WebSocketMessage;
 import org.springframework.web.reactive.socket.WebSocketSession;
@@ -11,9 +13,10 @@ import reactor.core.publisher.UnicastProcessor;
 
 import java.util.logging.Logger;
 
-
+@Component
 public class RaspoWSHandler implements WebSocketHandler {
 
+	@Autowired
 	public RaspoWSHandler(
 		UnicastProcessor<Message> unicastProcessor, Flux<Message> messages) {
 
@@ -25,18 +28,18 @@ public class RaspoWSHandler implements WebSocketHandler {
 	@Override
 	public Mono<Void> handle(WebSocketSession session) {
 
-		RaspoSubscriber raspoSubscriber = new RaspoSubscriber();
-
 		session.receive()
 			.map(WebSocketMessage::getPayloadAsText)
 			.map(Message::toMessage)
-			.subscribe(
-				raspoSubscriber::onNext,
-				raspoSubscriber::onError, raspoSubscriber::onComplete);
+			.subscribe(_RaspoSubscriber);
 
 		return session.send(_messages.map(session::textMessage));
 
 	}
+
+
+	@Autowired
+	private RaspoSubscriber _RaspoSubscriber;
 
 	private final UnicastProcessor<Message> _unicastProcessor;
 	private final Flux<String> _messages;
