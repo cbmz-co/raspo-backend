@@ -1,4 +1,4 @@
-package it.cbmz.raspo.backend.command;
+package it.cbmz.raspo.backend.command.client;
 
 import it.cbmz.raspo.backend.message.Message;
 import it.cbmz.raspo.backend.model.Device;
@@ -12,7 +12,7 @@ import java.util.UUID;
 import java.util.logging.Logger;
 
 @Component
-public class InitCommand implements Command {
+public class InitCommand extends ClientCommand {
 
 	@Override
 	public String commandName() {
@@ -21,7 +21,7 @@ public class InitCommand implements Command {
 
 	@Override
 	public void action(Message message) {
-		_log.info("init command " + message);
+		_log.info("init client command " + message);
 		Map<String, String> props = message.getProperties();
 		userRepo
 				.findById(UUID.fromString(props.get("uuid")))
