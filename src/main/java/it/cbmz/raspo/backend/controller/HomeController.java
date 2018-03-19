@@ -27,7 +27,6 @@ public class HomeController {
 		User u = new User();
 		u.setEMail(eMail);
 		u.setUserName(userName);
-		_log.info("ostia");
 		u = userRepo.save(u);
 		_log.info("UUID: "+u.getUuid());
 
