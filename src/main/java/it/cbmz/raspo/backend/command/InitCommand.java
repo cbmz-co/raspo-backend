@@ -7,12 +7,17 @@ import it.cbmz.raspo.backend.repos.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.logging.Logger;
 
 @Component
 public class InitCommand implements Command {
+
+	@Autowired private UserRepo userRepo;
+	@Autowired private DeviceRepo deviceRepo;
 
 	@Override
 	public String commandName() {
@@ -42,8 +47,6 @@ public class InitCommand implements Command {
 
 	}
 
-	@Autowired private UserRepo userRepo;
-	@Autowired private DeviceRepo deviceRepo;
 
 	private final Logger _log =
 		Logger.getLogger(InitCommand.class.getName());

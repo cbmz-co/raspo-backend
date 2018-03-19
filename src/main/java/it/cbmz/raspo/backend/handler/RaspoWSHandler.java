@@ -1,5 +1,6 @@
 package it.cbmz.raspo.backend.handler;
 
+import it.cbmz.raspo.backend.message.ClientMessage;
 import it.cbmz.raspo.backend.message.Message;
 import it.cbmz.raspo.backend.subscriber.RaspoSubscriber;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +31,7 @@ public class RaspoWSHandler implements WebSocketHandler {
 
 		session.receive()
 			.map(WebSocketMessage::getPayloadAsText)
-			.map(Message::toMessage)
+			.map(ClientMessage::toMessage)
 			.subscribe(_RaspoSubscriber);
 
 		return session.send(_messages.map(session::textMessage));

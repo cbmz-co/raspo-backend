@@ -6,18 +6,19 @@ import org.springframework.stereotype.Component;
 import java.util.logging.Logger;
 
 @Component
-public class SpeedTestCommand extends ServerCommand {
+public class DefaultServerCommand extends ServerCommand {
 
 	@Override
 	public String commandName() {
-		return "speedTest";
+		return "defaultServer";
 	}
 
 	@Override
 	public void action(Message message) {
-		_log.info("server command speedTest " + message);
+
+		_log.warning("default server command " + message);
 	}
 
 	private final Logger _log =
-		Logger.getLogger(SpeedTestCommand.class.getName());
+		Logger.getLogger(DefaultServerCommand.class.getName());
 }

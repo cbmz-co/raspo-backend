@@ -6,11 +6,11 @@ import org.springframework.stereotype.Component;
 import java.util.logging.Logger;
 
 @Component
-public class DefaultCommand extends ClientCommand {
+public class DefaultClientCommand extends ClientCommand {
 
 	@Override
 	public String commandName() {
-		return "default";
+		return "defaultClient";
 	}
 
 	@Override
@@ -20,5 +20,5 @@ public class DefaultCommand extends ClientCommand {
 	}
 
 	private final Logger _log =
-		Logger.getLogger(DefaultCommand.class.getName());
+		Logger.getLogger(DefaultClientCommand.class.getName());
 }

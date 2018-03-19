@@ -1,25 +1,23 @@
 package it.cbmz.raspo.backend.command.server;
 
-import it.cbmz.raspo.backend.command.Command;
 import it.cbmz.raspo.backend.message.Message;
 import org.springframework.stereotype.Component;
 
 import java.util.logging.Logger;
 
 @Component
-public class DefaultCommand extends ServerCommand {
+public class SpeedTestServerCommand extends ServerCommand {
 
 	@Override
 	public String commandName() {
-		return "default";
+		return "speedTestServer";
 	}
 
 	@Override
 	public void action(Message message) {
-
-		_log.warning("default server command " + message);
+		_log.info("server command speedTest " + message);
 	}
 
 	private final Logger _log =
-		Logger.getLogger(DefaultCommand.class.getName());
+		Logger.getLogger(SpeedTestServerCommand.class.getName());
 }

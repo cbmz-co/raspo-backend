@@ -6,11 +6,11 @@ import org.springframework.stereotype.Component;
 import java.util.logging.Logger;
 
 @Component
-public class SpeedTestCommand extends ClientCommand {
+public class SpeedTestClientCommand extends ClientCommand {
 
 	@Override
 	public String commandName() {
-		return "speedTest";
+		return "speedTestClient";
 	}
 
 	@Override
@@ -19,5 +19,5 @@ public class SpeedTestCommand extends ClientCommand {
 	}
 
 	private final Logger _log =
-		Logger.getLogger(SpeedTestCommand.class.getName());
+		Logger.getLogger(SpeedTestClientCommand.class.getName());
 }

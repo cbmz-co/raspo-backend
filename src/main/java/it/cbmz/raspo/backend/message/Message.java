@@ -48,7 +48,7 @@ public class Message {
 
 	public static Message toMessage(String json) {
 		try {
-			return _mapper.readValue(json, Message.class);
+			return mapper.readValue(json, Message.class);
 		} catch (IOException e) {
 			throw new RuntimeException("Invalid JSON:" + json, e);
 		}
@@ -56,7 +56,7 @@ public class Message {
 
 	public static String toJSON(Message message) {
 		try {
-			return _mapper.writeValueAsString(message);
+			return mapper.writeValueAsString(message);
 		} catch (JsonProcessingException e) {
 			throw new RuntimeException(e);
 		}
@@ -68,5 +68,9 @@ public class Message {
 				"{\"type\":\"%s\",\"message\":\"%s\"}", type, message));
 	}
 
-	private static final ObjectMapper _mapper = new ObjectMapper();
+	private static final ObjectMapper mapper = new ObjectMapper();
+
+	public static ObjectMapper getMapper(){
+		return mapper;
+	}
 }
