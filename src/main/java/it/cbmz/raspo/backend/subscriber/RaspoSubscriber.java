@@ -1,18 +1,12 @@
 package it.cbmz.raspo.backend.subscriber;
 
-import it.cbmz.raspo.backend.command.Command;
 import it.cbmz.raspo.backend.command.client.ClientCommand;
 import it.cbmz.raspo.backend.message.ClientMessage;
-import it.cbmz.raspo.backend.message.Message;
 import org.reactivestreams.Subscriber;
 import org.reactivestreams.Subscription;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
-import reactor.core.publisher.UnicastProcessor;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;

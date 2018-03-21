@@ -7,5 +7,5 @@ import org.springframework.stereotype.Repository;
 import java.util.UUID;
 
 @Repository
-public interface SpeedTestRepo extends PagingAndSortingRepository<SpeedTest, UUID> {
+public interface SpeedTestRepo extends PagingAndSortingRepository<SpeedTest, Long> {
 }

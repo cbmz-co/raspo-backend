@@ -1,16 +1,21 @@
 package it.cbmz.raspo.backend.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
-
-import javax.persistence.*;
-import java.util.UUID;
+import lombok.NoArgsConstructor;
+import org.bson.types.ObjectId;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 @Data
-@Entity
+@Document
+@NoArgsConstructor
+@AllArgsConstructor
 public class SpeedTest {
-    @Id@GeneratedValue private long id;
-    @ManyToOne private Device device;
-    @Column private float ping;
-    @Column private float dwSpeed;
-    @Column private float upSpeed;
+    @Id
+    private ObjectId id;
+    private Device device;
+    private float ping;
+    private float dwSpeed;
+    private float upSpeed;
 }

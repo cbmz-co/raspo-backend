@@ -2,26 +2,27 @@ package it.cbmz.raspo.backend.message;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.bson.types.ObjectId;
 
 import java.io.IOException;
 
 public class ClientMessage extends Message {
-	private String uuid;
+	private ObjectId userId;
 	private String mac;
 
 	@JsonCreator
 	public ClientMessage(
 		@JsonProperty("type") String type,
 		@JsonProperty("message") String message,
-		@JsonProperty("uuid") String uuid,
+		@JsonProperty("userId") ObjectId userId,
 		@JsonProperty("mac") String mac){
 		super(type, message);
-		this.uuid = uuid;
+		this.userId = userId;
 		this.mac = mac;
 	}
 
-	public String getUuid() {
-		return uuid;
+	public ObjectId getUserId() {
+		return userId;
 	}
 
 	public String getMac(){
@@ -34,7 +35,7 @@ public class ClientMessage extends Message {
 		return "Message{" +
 			"type='" + type + '\'' +
 			", message='" + message + '\'' +
-			", uuid='" + uuid + '\'' +
+			", userId='" + userId + '\'' +
 			", mac='" + mac + '\'' +
 			", properties=" + getProperties() +
 			'}';

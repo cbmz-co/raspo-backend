@@ -1,21 +1,20 @@
 package it.cbmz.raspo.backend.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
-import org.hibernate.annotations.GenericGenerator;
-
-import javax.persistence.*;
-import java.util.UUID;
+import lombok.NoArgsConstructor;
+import org.bson.types.ObjectId;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 @Data
-@Entity
+@Document
+@NoArgsConstructor
+@AllArgsConstructor
 public class User {
     @Id
-    @GeneratedValue(generator = "UUID")
-    @GenericGenerator(
-            name = "UUID",
-            strategy = "org.hibernate.id.UUIDGenerator"
-    )
-    private UUID uuid;
-    @Column(unique = true) private String userName;
-    @Column(unique = true) private String eMail;
+    private ObjectId id;
+    @Indexed(unique = true) private String username;
+    @Indexed(unique = true) private String email;
 }

@@ -1,0 +1,18 @@
+{
+  "generator-ngx-rocket": {
+    "version": "4.0.0",
+    "props": {
+      "appName": "raspo dashboard",
+      "target": [
+        "web"
+      ],
+      "pwa": false,
+      "ui": "bootstrap",
+      "auth": false,
+      "lazy": false,
+      "projectName": "raspo-dashboard",
+      "packageManager": "npm",
+      "mobile": []
+    }
+  }
+}

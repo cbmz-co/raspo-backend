@@ -20,10 +20,8 @@ public class RaspoWSHandler implements WebSocketHandler {
 	@Autowired
 	public RaspoWSHandler(
 		UnicastProcessor<Message> unicastProcessor, Flux<Message> messages) {
-
 		_unicastProcessor = unicastProcessor;
 		_messages = Flux.from(messages).map(Message::toJSON);
-
 	}
 
 	@Override
@@ -33,7 +31,6 @@ public class RaspoWSHandler implements WebSocketHandler {
 			.map(WebSocketMessage::getPayloadAsText)
 			.map(ClientMessage::toMessage)
 			.subscribe(_RaspoSubscriber);
-
 		return session.send(_messages.map(session::textMessage));
 
 	}

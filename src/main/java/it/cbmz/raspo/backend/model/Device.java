@@ -1,14 +1,20 @@
 package it.cbmz.raspo.backend.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
-
-import javax.persistence.*;
-import java.util.UUID;
+import lombok.NoArgsConstructor;
+import org.bson.types.ObjectId;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 @Data
-@Entity
+@Document
+@NoArgsConstructor
+@AllArgsConstructor
 public class Device {
-    @Id@GeneratedValue private long id;
-    @ManyToOne private User user;
-    @Column(unique = true) private String mac;
+    @Id
+    private ObjectId id;
+    private User user;
+    @Indexed(unique = true) private String mac;
 }

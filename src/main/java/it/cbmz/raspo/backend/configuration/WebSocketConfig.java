@@ -1,5 +1,6 @@
 package it.cbmz.raspo.backend.configuration;
 
+import it.cbmz.raspo.backend.handler.CommandHandler;
 import it.cbmz.raspo.backend.handler.RaspoWSHandler;
 import it.cbmz.raspo.backend.message.Message;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,6 +44,11 @@ public class WebSocketConfig {
 	@Bean
 	public WebSocketHandlerAdapter handlerAdapter() {
 		return new WebSocketHandlerAdapter();
+	}
+
+	@Bean
+	public CommandHandler commandHandler(UnicastProcessor<Message> messagePublisher){
+		return new CommandHandler(messagePublisher);
 	}
 
 	@Autowired

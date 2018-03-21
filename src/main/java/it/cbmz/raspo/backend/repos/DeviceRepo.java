@@ -9,6 +9,6 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-public interface DeviceRepo extends PagingAndSortingRepository<Device, UUID> {
+public interface DeviceRepo extends PagingAndSortingRepository<Device, Long> {
     Optional<Device> findByMac(@Param(value = "mac") String mac);
 }
