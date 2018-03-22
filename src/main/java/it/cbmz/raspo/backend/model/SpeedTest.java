@@ -16,6 +16,6 @@ public class SpeedTest {
     private ObjectId id;
     private Device device;
     private float ping;
-    private float dwSpeed;
-    private float upSpeed;
+    private String dwSpeed;
+    private String upSpeed;
 }

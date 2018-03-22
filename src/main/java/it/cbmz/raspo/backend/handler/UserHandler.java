@@ -23,20 +23,24 @@ public class UserHandler {
 
 	public Mono<ServerResponse> listUsers(ServerRequest request) {
 		Flux<User> users = userReactiveRepo.findAll();
-		return ServerResponse.ok().contentType(APPLICATION_JSON).body(users, User.class);
+		return ServerResponse.ok().contentType(APPLICATION_JSON)
+			.body(users, User.class);
 	}
 
 	public Mono<ServerResponse> createUser(ServerRequest request) {
 		Mono<User> user = request.bodyToMono(User.class);
-		return ServerResponse.ok().build(userReactiveRepo.save(user.block()).then());
+		return ServerResponse.ok()
+			.build(userReactiveRepo.save(user.block()).then());
 	}
 
 	public Mono<ServerResponse> getUser(ServerRequest request) {
 		ObjectId userId = new ObjectId(request.pathVariable("id"));
-		Mono<ServerResponse> notFound = ServerResponse.notFound().build();
+		Mono<ServerResponse> notFound =
+			ServerResponse.notFound().build();
 		Mono<User> userMono = userReactiveRepo.findById(userId);
 		return userMono
-			.flatMap(user -> ServerResponse.ok().contentType(APPLICATION_JSON).body(fromObject(user)))
+			.flatMap(user -> ServerResponse.ok()
+				.contentType(APPLICATION_JSON).body(fromObject(user)))
 			.switchIfEmpty(notFound);
 	}
 

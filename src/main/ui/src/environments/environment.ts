@@ -6,10 +6,10 @@
 export const environment = {
   production: false,
   version: '(dev)',
-  serverUrl: '/api',
+  serverUrl: 'https://api.chucknorris.io', //'api',
   defaultLanguage: 'en-US',
   supportedLanguages: [
     'en-US',
-    'fr-FR'
+    'it-IT'
   ]
 };
