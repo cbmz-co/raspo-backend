@@ -1,4 +1,4 @@
-package it.cbmz.raspo.backend.handler;
+package it.cbmz.raspo.backend.webapp.handler;
 
 import it.cbmz.raspo.backend.model.Device;
 import it.cbmz.raspo.backend.repos.DeviceReactiveRepo;

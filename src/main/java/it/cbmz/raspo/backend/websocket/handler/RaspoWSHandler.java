@@ -1,8 +1,8 @@
-package it.cbmz.raspo.backend.handler;
+package it.cbmz.raspo.backend.websocket.handler;
 
 import it.cbmz.raspo.backend.message.ClientMessage;
 import it.cbmz.raspo.backend.message.Message;
-import it.cbmz.raspo.backend.subscriber.RaspoSubscriber;
+import it.cbmz.raspo.backend.websocket.subscriber.RaspoSubscriber;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.socket.WebSocketHandler;

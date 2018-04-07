@@ -1,7 +1,7 @@
-package it.cbmz.raspo.backend.configuration;
+package it.cbmz.raspo.backend.websocket.configuration;
 
-import it.cbmz.raspo.backend.handler.CommandHandler;
-import it.cbmz.raspo.backend.handler.RaspoWSHandler;
+import it.cbmz.raspo.backend.webapp.handler.CommandHandler;
+import it.cbmz.raspo.backend.websocket.handler.RaspoWSHandler;
 import it.cbmz.raspo.backend.message.Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;

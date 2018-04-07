@@ -1,7 +1,6 @@
-package it.cbmz.raspo.backend.handler;
+package it.cbmz.raspo.backend.webapp.handler;
 
 import it.cbmz.raspo.backend.message.Message;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;

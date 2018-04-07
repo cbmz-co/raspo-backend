@@ -1,10 +1,11 @@
-package it.cbmz.raspo.backend.subscriber;
+package it.cbmz.raspo.backend.websocket.subscriber;
 
 import it.cbmz.raspo.backend.command.client.ClientCommand;
 import it.cbmz.raspo.backend.message.ClientMessage;
 import org.reactivestreams.Subscriber;
 import org.reactivestreams.Subscription;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -43,6 +44,8 @@ public class RaspoSubscriber implements Subscriber<ClientMessage> {
 	private final Logger _log =
 		Logger.getLogger(RaspoSubscriber.class.getName());
 
+	/**
+	 * Creo un bean all'interno dell'ApplicationConfig
 	@Autowired
 	private void setCommandMap(List<ClientCommand> commands) {
 
@@ -67,7 +70,9 @@ public class RaspoSubscriber implements Subscriber<ClientMessage> {
 			}
 		};
 	}
+	**/
 
+	@Autowired@Qualifier("commandMap") //Inietto il bean di ApplicationConfig
 	private Map<String, ClientCommand> commandMap;
 
 
