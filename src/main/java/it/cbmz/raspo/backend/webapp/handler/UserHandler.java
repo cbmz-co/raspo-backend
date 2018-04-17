@@ -1,7 +1,7 @@
 package it.cbmz.raspo.backend.webapp.handler;
 
-import it.cbmz.raspo.backend.model.User;
-import it.cbmz.raspo.backend.repos.UserReactiveRepo;
+import it.cbmz.raspo.backend.core.model.User;
+import it.cbmz.raspo.backend.core.repos.UserReactiveRepo;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -34,7 +34,7 @@ public class UserHandler {
 	}
 
 	public Mono<ServerResponse> getUser(ServerRequest request) {
-		ObjectId userId = new ObjectId(request.pathVariable("id"));
+		String userId = request.pathVariable("id");
 		Mono<ServerResponse> notFound =
 			ServerResponse.notFound().build();
 		Mono<User> userMono = userReactiveRepo.findById(userId);

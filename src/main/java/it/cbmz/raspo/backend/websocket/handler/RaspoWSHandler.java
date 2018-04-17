@@ -1,7 +1,7 @@
 package it.cbmz.raspo.backend.websocket.handler;
 
-import it.cbmz.raspo.backend.message.ClientMessage;
-import it.cbmz.raspo.backend.message.Message;
+import it.cbmz.raspo.backend.core.message.ClientMessage;
+import it.cbmz.raspo.backend.core.message.Message;
 import it.cbmz.raspo.backend.websocket.subscriber.RaspoSubscriber;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

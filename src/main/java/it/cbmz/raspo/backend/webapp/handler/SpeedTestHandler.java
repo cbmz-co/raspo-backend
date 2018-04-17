@@ -1,7 +1,7 @@
 package it.cbmz.raspo.backend.webapp.handler;
 
-import it.cbmz.raspo.backend.model.SpeedTest;
-import it.cbmz.raspo.backend.repos.SpeedTestReactiveRepo;
+import it.cbmz.raspo.backend.core.model.SpeedTest;
+import it.cbmz.raspo.backend.core.repos.SpeedTestReactiveRepo;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -30,8 +30,7 @@ public class SpeedTestHandler {
 	}
 
 	public Mono<ServerResponse> getSpeedTest(ServerRequest request) {
-		ObjectId speedTestId =
-			new ObjectId(request.pathVariable("id"));
+		String speedTestId = request.pathVariable("id");
 		Mono<ServerResponse> notFound =
 			ServerResponse.notFound().build();
 		Mono<SpeedTest> speedTestMono =

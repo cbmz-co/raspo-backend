@@ -1,6 +1,6 @@
 package it.cbmz.raspo.backend.webapp.handler;
 
-import it.cbmz.raspo.backend.message.Message;
+import it.cbmz.raspo.backend.core.message.Message;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;

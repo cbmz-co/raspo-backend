@@ -60,7 +60,10 @@ public class RouterConfig {
 		DeviceHandler deviceHandler
 	) {
 		return route(GET("/device/{id}"), deviceHandler::getDevice)
-			.andRoute(GET("/device"), deviceHandler::listDevices);
+			.andRoute(GET("/device"), deviceHandler::listDevices)
+			.andRoute(POST("/device"), deviceHandler::createDevice)
+			.andRoute(GET("/device/register/{id}"), deviceHandler::checkRegisterDevice)
+			.andRoute(POST("/device/register"), deviceHandler::registerDevice);
 	}
 
 	public RouterFunction<ServerResponse> speedTestRoutes(

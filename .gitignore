@@ -24,8 +24,11 @@ hs_err_pid*
 
 *.iml
 .idea
-**/build
+/build
 **/classes
 **/generated
 **/bin
 .gradle
+/src/main/resources/public/static
+/src/main/resources/public/*.html
+
