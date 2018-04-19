@@ -71,6 +71,7 @@ public class DeviceHandler {
 					result.put("message", "Already registered");
 				}else{
 					result.put("id", device.getId());
+					result.put("mac", device.getMac());
 				}
 				return ServerResponse.ok()
 					.contentType(APPLICATION_JSON).body(fromObject(result));

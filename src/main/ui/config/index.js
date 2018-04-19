@@ -15,9 +15,8 @@ module.exports = {
       '/api': {
         target: 'https://my-json-server.typicode.com/cbmz-co/raspo-backend',
         changeOrigin: true,
-        pathRewrite: {
-          '^/api': ''
-        }
+        pathRewrite: {'^/api': ''}
+      }
     },
 
     // Various Dev Server settings

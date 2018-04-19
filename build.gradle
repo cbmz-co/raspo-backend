@@ -29,28 +29,37 @@ repositories {
 }
 
 dependencies {
-    compile('org.springframework.boot:spring-boot-starter-webflux')
+    compile 'org.springframework.boot:spring-boot-starter-webflux'
     compile 'org.springframework.kafka:spring-kafka:2.1.4.RELEASE'
-    compile('org.springframework.boot:spring-boot-starter-data-mongodb-reactive')
-    runtime('org.springframework.boot:spring-boot-devtools')
+    compile 'org.springframework.boot:spring-boot-starter-data-mongodb-reactive'
+    runtime 'org.springframework.boot:spring-boot-devtools'
     compileOnly 'org.projectlombok:lombok:1.16.20'
 }
 
 
-    task npmDependencies(type: Exec) {
-        workingDir 'src/main/ui'
-        commandLine 'npm'
-        args = ["install"]
-    }
+task npmDependencies(type: Exec) {
+    workingDir 'src/main/ui'
+    commandLine 'npm'
+    args = ["install"]
+}
 
-    task buildUI(type: Exec, dependsOn: npmDependencies) {
-        logger.lifecycle("-" * 100)
-        logger.lifecycle("""
-        THIS BUILD HAS BEEN TESTED ON Ubuntu 17.10 WITH NPM 5.6.0 AND NODE v8.10.0 AVAILABLE ON THE PATH
-    """)
-        logger.lifecycle("-" * 100)
-        workingDir 'src/main/ui'
-        commandLine 'npm'
-        args = ["run", "build"]
+task buildUI(type: Exec, dependsOn: npmDependencies) {
+    logger.lifecycle("-" * 100)
+    logger.lifecycle("""
+    THIS BUILD HAS BEEN TESTED ON Ubuntu 17.10 WITH NPM 5.6.0 AND NODE v8.10.0 AVAILABLE ON THE PATH
+""")
+    logger.lifecycle("-" * 100)
+    workingDir 'src/main/ui'
+    commandLine 'npm'
+    args = ["run", "build"]
+}
+processResources.dependsOn buildUI
+
+/*
+sourceSets {
+    main {
+        java {
+            exclude 'it/cbmz/raspo/backend/kafka/**'
+        }
     }
-    processResources.dependsOn buildUI
+}*/
