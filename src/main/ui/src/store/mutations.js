@@ -8,5 +8,11 @@ export default {
   },
   receiveDevice (state, device) {
     state.device = device
+  },
+  resetDevice (state, device) {
+    state.device = null
+  },
+  addError (state, error) {
+    state.errors.push(error)
   }
 }

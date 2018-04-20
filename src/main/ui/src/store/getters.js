@@ -19,3 +19,11 @@ export const unregisteredDevices = state => {
 export const getDevice = state => {
   return state.device
 }
+
+export const getErrors = state => {
+  return state.errors
+}
+
+export const getLastError = state => {
+  return state.errors[state.errors.length - 1]
+}

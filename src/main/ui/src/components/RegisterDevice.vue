@@ -4,22 +4,45 @@
             <h2>Register a device</h2>
         </header>
         <main>
-            <b-form>
-                <b-form-input required v-model="form.username"
-                  type="text"
-                  placeholder="Enter your username"></b-form-input>
-                <b-form-input required v-model="form.email"
-                  type="text"
-                  placeholder="Enter your email"></b-form-input>
-                <b-form-input required disabled v-model="deviceId"
-                  type="text"></b-form-input>
-            </b-form>
+          <b-form @submit="onSubmit">
+            <b-form-group id="usernameInputGroup"
+                          label="Username:"
+                          label-for="usernameInput">
+              <b-form-input id="usernameInput"
+                            v-model="form.username"
+                            type="text"
+                            required
+                            placeholder="Enter your username">
+              </b-form-input>
+            </b-form-group>
+            <b-form-group id="emailInputGroup"
+                          label="Email:"
+                          label-for="emailInput">
+              <b-form-input id="emailInput"
+                            v-model="form.email"
+                            type="text"
+                            required
+                            placeholder="Enter your email">
+              </b-form-input>
+            </b-form-group>
+            <b-form-group id="deviceIdInputGroup"
+                          label="Device:"
+                          label-for="deviceIdInput">
+              <b-form-input id="deviceIdInput"
+                          :value="device ? device.id : 'undefined'"
+                          type="text"
+                          required
+                          disabled>
+              </b-form-input>
+            </b-form-group>
+            <b-button type="submit" variant="secondary">Submit</b-button>
+          </b-form>
         </main>
     </div>
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 
 export default {
   name: 'RegisterDevice',
@@ -34,21 +57,24 @@ export default {
   },
   props: ['id'],
   computed: {
-    device () {
-      return this.$store.getters.getDevice
-    },
-    deviceId: {
-      get () {
-        return this.$store.getters.getDevice ? this.$store.getters.getDevice.id : 'undefined'
-      },
-      set (value) {
-        this.form.id = value
+    ...mapGetters(
+      {
+        device: 'getDevice'
       }
-    }
+    )
   },
-  methods: mapActions(['checkRegisterDevice', 'registerDevice']),
+  methods: {
+    onSubmit: async function (evt) {
+      this.form.id = this.device ? this.device.id : null
+      evt.preventDefault()
+      console.log(JSON.stringify(this.form))
+      await this.registerDevice(this.form)
+    },
+    ...mapActions(['checkRegisterDevice', 'registerDevice', 'resetDevice'])
+  },
   created: async function () {
-    this.$store.dispatch('checkRegisterDevice', this.id)
+    this.resetDevice()
+    this.checkRegisterDevice(this.id)
   }
 }
 </script>

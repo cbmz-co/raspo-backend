@@ -9,7 +9,8 @@ Vue.use(Vuex)
 
 const state = {
   devices: [],
-  device: null
+  device: null,
+  errors: []
 }
 
 export default new Vuex.Store({

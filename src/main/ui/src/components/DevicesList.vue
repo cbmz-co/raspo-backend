@@ -5,7 +5,11 @@
     </header>
     <main>
       <template>
-        <b-table :items="devices" :fields="fields">
+        <b-table  striped
+                  small
+                  responsive
+                  :items="devices"
+                  :fields="fields">
           <template slot="show_details" slot-scope="row">
             <!-- we use @click.stop here to prevent emitting of a 'row-clicked' event  -->
             <b-button size="sm" @click.stop="row.toggleDetails" class="mr-2">
@@ -22,7 +26,7 @@
                 </b-col>
                 <b-col sm="6">
                   <p>Username: {{row.item.user? row.item.user.username || 'undefined' : 'undefined'}}</p>
-                  <p>Email: {{row.item.user? row.item.user.mail || 'undefined' : 'undefined'}}</p>
+                  <p>Email: {{row.item.user? row.item.user.email || 'undefined' : 'undefined'}}</p>
                   <p>Last signal: {{row.item.lastSignal || 'undefined'}}</p>
                   <b-link :href="'http://localhost:8080/#/register/' + row.item.id">{{'#/register/' + row.item.id }}</b-link>
                 </b-col>
@@ -45,12 +49,14 @@ export default {
       fields: [ 'id', 'mac', 'show_details' ]
     }
   },
-  computed: mapGetters({
-    devices: 'allDevices'
-  }),
-  methods: mapActions(['getAllDevices']),
+  computed: {
+    ...mapGetters({devices: 'allDevices'})
+  },
+  methods: {
+    ...mapActions(['getAllDevices'])
+  },
   created: function () {
-    this.$store.dispatch('getAllDevices')
+    this.getAllDevices()
   }
 }
 </script>
