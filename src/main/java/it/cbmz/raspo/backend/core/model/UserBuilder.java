@@ -2,6 +2,7 @@ package it.cbmz.raspo.backend.core.model;
 
 import org.bson.types.ObjectId;
 
+import java.util.Objects;
 import java.util.function.Consumer;
 
 public class UserBuilder {
@@ -20,5 +21,13 @@ public class UserBuilder {
 			username,
 			email
 		);
+	}
+
+	public static User of(String objectId, String username, String email) {
+
+		Objects.requireNonNull(username);
+		Objects.requireNonNull(email);
+
+		return new User(objectId, username, email);
 	}
 }

@@ -14,9 +14,15 @@ import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+import reactor.util.function.Tuple3;
+import reactor.util.function.Tuples;
 
+import javax.swing.text.html.Option;
 import java.util.*;
+import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.logging.Logger;
+import java.util.stream.Stream;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.web.reactive.function.BodyInserters.fromObject;
@@ -81,53 +87,31 @@ public class DeviceHandler {
 	}
 
 	public Mono<ServerResponse> registerDevice(ServerRequest request) {
-		Mono<Map<String, Object>> params = request.bodyToMono(new ParameterizedTypeReference<Map<String, Object>>() {});
-		Mono<Device> deviceMono = params.flatMap(p -> {
-			try {
-				Device d = deviceReactiveRepo.findById((String) p.get("id")).block();
+		
+		return request.bodyToMono(
+			new ParameterizedTypeReference<Map<String, Object>>() {})
+				.map(p -> Tuples.of(
+					(String) p.get("id"),
+					(String)p.get("username"),
+					(String)p.get("email")))
+				.flatMap(t -> deviceReactiveRepo.findById(t.getT1())
+					.flatMap(device -> userReactiveRepo.save(
+						UserBuilder.of(
+							null, t.getT2(), t.getT3()
+						)).flatMap(user -> {
+							device.setUser(user);
+							device.setModifiedDate(new Date());
+							return deviceReactiveRepo.save(device)
+								.flatMap(saved -> ServerResponse.ok()
+									.contentType(APPLICATION_JSON)
+									.body(fromObject(saved)))
+								.switchIfEmpty(notFound);
+						})
+					)
+				).doOnError(e ->
+					_log.warning("registration failed, exception: "
+						+ e.getMessage()));
 
-				User u = userReactiveRepo.save(new UserBuilder()
-					.with($ -> {
-						$.username = (String) p.get("username");
-						$.email = (String) p.get("email");
-					}).create()).block();
-				d.setUser(u);
-				d.setModifiedDate(new Date());
-
-				return deviceReactiveRepo.save(d);
-			} catch (Exception e) {
-				_log.warning("registration failed, exception: "+ e.getMessage());
-				return Mono.empty();
-			}
-		});
-		return deviceMono.flatMap( device -> ServerResponse.ok()
-			.contentType(APPLICATION_JSON).body(fromObject(device)))
-			.switchIfEmpty(notFound);
-//		return params.flatMap(p -> {
-//			try {
-//				return deviceReactiveRepo.findById((String) p.get("id"))
-//					.map( device ->
-//						userReactiveRepo.save(new UserBuilder()
-//							.with($ -> {
-//								$.username = (String) p.get("username");
-//								$.email = (String) p.get("email");
-//							}).create())
-//							.map( user -> {
-//								device.setUser(user);
-//								device.setModifiedDate(new Date());
-//								return deviceReactiveRepo.save(device)
-//									.flatMap( saved -> ServerResponse.ok()
-//										.contentType(APPLICATION_JSON).body(fromObject(saved)))
-//									.switchIfEmpty(notFound);
-//
-//							})
-//					).block().block();
-//
-//			} catch (Exception e) {
-//				_log.warning("registration failed, exception: "+ e.getMessage());
-//				return notFound;
-//			}
-//		});
 	}
 
 	private Mono<ServerResponse> notFound;
