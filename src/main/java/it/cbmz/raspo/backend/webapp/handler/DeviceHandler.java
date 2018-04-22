@@ -29,8 +29,6 @@ import static org.springframework.web.reactive.function.BodyInserters.fromObject
 
 @Component
 public class DeviceHandler {
-// TODO getByUser
-// TODO getByMac
 
 	@Autowired
 	public DeviceHandler(
@@ -58,15 +56,18 @@ public class DeviceHandler {
 	}
 
 	public Mono<ServerResponse> createDevice(ServerRequest request) {
-		Mono<Device> deviceMono = request.bodyToMono(Device.class);
-		return deviceMono
+		return request.bodyToMono(Device.class)
 			.flatMap(d -> {
 				d.setCreateDate(new Date());
-				return ServerResponse.ok()
-					.contentType(APPLICATION_JSON)
-					.body(fromObject(deviceReactiveRepo.save(d)));
+				return deviceReactiveRepo.save(d)
+					.flatMap( saved -> ServerResponse.ok()
+										.contentType(APPLICATION_JSON)
+										.body(fromObject(saved))
+					).switchIfEmpty(notFound);
 			})
-			.switchIfEmpty(notFound);
+			.doOnError(e ->
+				_log.warning("Creation failed, exception: "
+					+ e.getMessage()));
 	}
 
 	public Mono<ServerResponse> checkRegisterDevice(ServerRequest request) {
@@ -83,11 +84,9 @@ public class DeviceHandler {
 				}
 			})
 			.switchIfEmpty(notFound);
-
 	}
 
 	public Mono<ServerResponse> registerDevice(ServerRequest request) {
-		
 		return request.bodyToMono(
 			new ParameterizedTypeReference<Map<String, Object>>() {})
 				.map(p -> Tuples.of(
@@ -111,7 +110,6 @@ public class DeviceHandler {
 				).doOnError(e ->
 					_log.warning("registration failed, exception: "
 						+ e.getMessage()));
-
 	}
 
 	private Mono<ServerResponse> notFound;

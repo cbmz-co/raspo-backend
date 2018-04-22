@@ -31,6 +31,21 @@ export const checkRegisterDevice = async ({ dispatch, commit }, payload) => {
   }
 }
 
+export const createDevice = async ({ dispatch }, payload) => {
+  try {
+    await api.createDevice(payload)
+    dispatch('getAllDevices')
+    return 'success'
+  } catch (e) {
+    console.log(e)
+    dispatch({
+      type: 'newError',
+      message: 'Device creation failed, mac: ' + payload.mac,
+      e: e})
+    return 'fail'
+  }
+}
+
 export const registerDevice = async ({ dispatch, commit }, payload) => {
   try {
     const device = await api.registerDevice(payload)

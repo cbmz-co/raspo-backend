@@ -9,18 +9,25 @@ import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;
+import java.util.logging.Logger;
 
-@Component
+
 public class ClientListener {
 
 	@KafkaListener(topics = "client")
 	public void listen(ClientMessage message) {
 		System.out.println("Received Message: " + message);
-		Command command = commandMap.get(message.type);
-		command.action(message);
+		try {
+			Command command = commandMap.get(message.type);
+			command.action(message);
+		} catch (Exception e) {
+			_log.warning(String.format("Command not founded, caused by: %s", e.getCause()));
+		}
 	}
 
 	@Autowired@Qualifier("commandMap")
 	private Map<String, ClientCommand> commandMap;
+	private final Logger _log =
+		Logger.getLogger(ClientListener.class.getName());
 
 }

@@ -4,8 +4,14 @@ export const allDevices = state => {
   return state.devices
 }
 
+export const latestCreatedDevice = state => {
+  return state.devices.filter((device) => device.createDate !== undefined &&
+                                          device.createDate !== null &&
+                                          moment(device.createDate) >= moment().subtract(5, 'minutes')
+  )
+}
 export const devicesOffline = state => {
-  return state.devices.filter((device) => device.lastSignal <= moment().subtract(5, 'm'))
+  return state.devices.filter((device) => moment(device.lastSignal) < moment().subtract(1, 'minutes'))
 }
 
 export const registeredDevices = state => {

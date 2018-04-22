@@ -22,36 +22,28 @@ public class SpeedTestClientCommand extends ClientCommand {
 
 	@Override
 	public void action(Message message) {
-		if (message instanceof ClientMessage) {
-			ClientMessage clientMessage = (ClientMessage) message;
-			_log.info("client command speedTest " + clientMessage);
-			deviceReactiveRepo.findByMac(clientMessage.getMac())
-				.blockOptional()
-				.map( device -> {
-					return speedTestReactiveRepo
-						.save(new SpeedTestBuilder()
-							.with($ -> {
-								$.device = device;
-								$.ping = parseFloat(clientMessage.getProperties().get("ping"));
-								$.dwSpeed = clientMessage.getProperties().get("dw_speed");
-								$.upSpeed = clientMessage.getProperties().get("up_speed");
-							})
-							.create()
-						).blockOptional();
-				})
-				.get()
-				.ifPresent(speedTest ->
-					_log.info("SpeedTest added, MAC: "+speedTest.getDevice().getMac()));
+		ClientMessage clientMessage = (ClientMessage) message;
+		_log.info("client speedTest message: " + clientMessage);
+		deviceReactiveRepo.findByMac(clientMessage.getMac())
+			.flatMap( device ->
+				speedTestReactiveRepo
+					.save(new SpeedTestBuilder()
+						.with($ -> {
+							$.device = device;
+							$.ping = parseFloat(clientMessage.getProperties().get("ping"));
+							$.dwSpeed = clientMessage.getProperties().get("dw_speed");
+							$.upSpeed = clientMessage.getProperties().get("up_speed");
+						})
+						.create()
+					)
+			)
+			.doOnError(e -> _log.warning(String.format("Error in speedTestClient command, caused by: %s", e.getCause())));
 
-		}else{
-			_log.warning("No valid message: "+message);
-		}
 
 	}
 
 	@Autowired private SpeedTestReactiveRepo speedTestReactiveRepo;
 	@Autowired private DeviceReactiveRepo deviceReactiveRepo;
-
 	private final Logger _log =
 		Logger.getLogger(SpeedTestClientCommand.class.getName());
 }

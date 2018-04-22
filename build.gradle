@@ -30,7 +30,8 @@ repositories {
 
 dependencies {
     compile 'org.springframework.boot:spring-boot-starter-webflux'
-    compile 'org.springframework.kafka:spring-kafka:2.1.4.RELEASE'
+    compile 'org.springframework.kafka:spring-kafka:2.1.5.RELEASE'
+    compile group: 'org.apache.kafka', name: 'kafka-streams', version: '1.0.1'
     compile 'org.springframework.boot:spring-boot-starter-data-mongodb-reactive'
     runtime 'org.springframework.boot:spring-boot-devtools'
     compileOnly 'org.projectlombok:lombok:1.16.20'
@@ -53,13 +54,6 @@ task buildUI(type: Exec, dependsOn: npmDependencies) {
     commandLine 'npm'
     args = ["run", "build"]
 }
-processResources.dependsOn buildUI
 
-/*
-sourceSets {
-    main {
-        java {
-            exclude 'it/cbmz/raspo/backend/kafka/**'
-        }
-    }
-}*/
+processResources.dependsOn buildUI
+sourceSets { main { java { exclude 'it/cbmz/raspo/backend/kafka/**' }}}

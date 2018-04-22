@@ -12,7 +12,7 @@
                   :fields="fields">
           <template slot="show_details" slot-scope="row">
             <!-- we use @click.stop here to prevent emitting of a 'row-clicked' event  -->
-            <b-button size="sm" @click.stop="row.toggleDetails" class="mr-2">
+            <b-button size="sm" @click.stop="row.toggleDetails" class="mr-2" variant="secondary">
             {{ row.detailsShowing ? 'Hide' : 'Show'}} Details
             </b-button>
           </template>

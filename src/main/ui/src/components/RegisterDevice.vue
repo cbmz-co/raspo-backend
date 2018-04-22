@@ -35,7 +35,7 @@
                           disabled>
               </b-form-input>
             </b-form-group>
-            <b-button type="submit" variant="secondary">Submit</b-button>
+            <b-button type="submit" variant="dark">Submit</b-button>
           </b-form>
         </main>
     </div>
@@ -67,7 +67,6 @@ export default {
     onSubmit: async function (evt) {
       this.form.id = this.device ? this.device.id : null
       evt.preventDefault()
-      console.log(JSON.stringify(this.form))
       await this.registerDevice(this.form)
     },
     ...mapActions(['checkRegisterDevice', 'registerDevice', 'resetDevice'])
