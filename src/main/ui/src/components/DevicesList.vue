@@ -21,14 +21,14 @@
               <b-row class="mb-2">
                 <b-col sm="6">
                   <b-row class="d-flex justify-content-center">
-                    <qrcode :value="'http://localhost:8080/#/register/' + row.item.id"  :options="{ size: 200 }"></qrcode>
+                    <qrcode :value="registerLink + row.item.id"  :options="{ size: 200 }"></qrcode>
                   </b-row>
                 </b-col>
                 <b-col sm="6">
                   <p>Username: {{row.item.user? row.item.user.username || 'undefined' : 'undefined'}}</p>
                   <p>Email: {{row.item.user? row.item.user.email || 'undefined' : 'undefined'}}</p>
                   <p>Last signal: {{row.item.lastSignal || 'undefined'}}</p>
-                  <b-link :href="'http://localhost:8080/#/register/' + row.item.id">{{'#/register/' + row.item.id }}</b-link>
+                  <b-link :href="registerLink + row.item.id">{{'#/register/' + row.item.id }}</b-link>
                 </b-col>
               </b-row>
             </b-card>
@@ -50,7 +50,10 @@ export default {
     }
   },
   computed: {
-    ...mapGetters({devices: 'allDevices'})
+    ...mapGetters({devices: 'allDevices'}),
+    registerLink: function () {
+      return window.location.origin + '/#/register/'
+    }
   },
   methods: {
     ...mapActions(['getAllDevices'])

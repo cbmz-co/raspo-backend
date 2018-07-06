@@ -1,0 +1,34 @@
+version: '3.3'
+services:
+        mongodb:
+                container_name: mongodb
+                image: mongo:3.6
+        zookeeper:
+                container_name: zookeeper
+                image:  wurstmeister/zookeeper:latest
+                ports:
+                        - "2181:2181"
+        broker-1:
+                container_name: broker-1
+                image:  wurstmeister/kafka:2.11-1.1.0
+                environment:
+                        HOSTNAME_COMMAND: "docker info | grep ^Name: | cut -d' ' -f 2"
+                        KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+                        KAFKA_ADVERTISED_LISTENERS: INT://:9092,EXT://_{HOSTNAME_COMMAND}:9094
+                        KAFKA_LISTENERS: INT://:9092,EXT://:9094
+                        KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INT:PLAINTEXT,EXT:PLAINTEXT
+                        KAFKA_INTER_BROKER_LISTENER_NAME: INT
+                ports:
+                        - "9094:9094"
+                volumes:
+                        - /var/run/docker.sock:/var/run/docker.sock
+                depends_on:
+                        - zookeeper
+        backend:
+                container_name: backend
+                image:  it.cbmz.raspo/backend:latest
+                ports:
+                        - "80:8080"
+                depends_on:
+                        - mongodb
+                        - broker-1

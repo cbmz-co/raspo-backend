@@ -40,34 +40,6 @@ public class RaspoSubscriber implements Subscriber<ClientMessage> {
 	private final Logger _log =
 		Logger.getLogger(RaspoSubscriber.class.getName());
 
-	/**
-	 * Creo un bean all'interno dell'ApplicationConfig
-	@Autowired
-	private void setCommandMap(List<ClientCommand> commands) {
-
-		Map<String, ClientCommand> _commands = commands.stream().collect(
-			Collectors.toConcurrentMap(
-				ClientCommand::commandName, Function.identity())
-		);
-
-		commandMap = new ConcurrentHashMap<String, ClientCommand>(_commands) {
-			private ClientCommand _defaultValue = get("default");
-
-			@Override
-			public ClientCommand get(Object key) {
-
-				ClientCommand command = super.get(key);
-
-				if(command == null) {
-					return _defaultValue;
-				}
-
-				return command;
-			}
-		};
-	}
-	**/
-
 	@Autowired@Qualifier("commandMap") //Inietto il bean di ApplicationConfig
 	private Map<String, ClientCommand> commandMap;
 
