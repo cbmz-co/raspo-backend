@@ -1,4 +1,4 @@
-# raspo-backend
+# Raspo backend
 
 - Requirements:
     - node.js >= v8.x
@@ -12,4 +12,6 @@
     - docker  : make the docker image of the web application
     - dockerComposeUp : bootstrap the environment and the web application
 
+# License
 
+See the [LICENSE](./LICENSE) file for license rights and limitations (MIT).
