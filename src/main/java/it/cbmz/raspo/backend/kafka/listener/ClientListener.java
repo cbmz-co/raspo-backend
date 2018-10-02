@@ -22,6 +22,7 @@ public class ClientListener {
 			command.action(message);
 		} catch (Exception e) {
 			_log.warning(String.format("Command not founded, caused by: %s", e.getCause()));
+			e.printStackTrace();
 		}
 	}
 

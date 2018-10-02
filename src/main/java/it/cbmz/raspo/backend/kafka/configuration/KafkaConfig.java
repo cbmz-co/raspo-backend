@@ -27,10 +27,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 @EnableKafka
-@EnableKafkaStreams
+//@EnableKafkaStreams
 @Configuration
 public class KafkaConfig {
-/**
+
 	@Bean
 	public ConcurrentKafkaListenerContainerFactory<String, String>
 	kafkaListenerContainerFactory() {
@@ -78,7 +78,8 @@ public class KafkaConfig {
 	public ClientListener clientListener(){
 		return new ClientListener();
 	}
-**/
+
+	/**
 	@Bean(name = KafkaStreamsDefaultConfiguration.DEFAULT_STREAMS_CONFIG_BEAN_NAME)
 	public StreamsConfig kStreamsConfigs() {
 		Map<String, Object> props = new HashMap<>();
@@ -98,5 +99,5 @@ public class KafkaConfig {
 		stream
 			.peek((key, value) -> System.out.println("key: "+key+", value: "+value));
 		return stream;
-	}
+	}**/
 }
